@@ -1,0 +1,26 @@
+version: 1
+send_anonymous_usage_stats: true
+project_id: tap-okta
+plugins:
+  extractors:
+  - name: tap-okta
+    namespace: tap_okta
+    # TODO: To test using Meltano, replace with absolute path
+    #       to the tap-okta.sh script:
+    executable: ./tap-okta.sh
+    capabilities:
+    - state
+    - catalog
+    - discover
+    config:
+      start_date: '2010-01-01T00:00:00Z'
+    settings:
+    - name: url
+    - name: api_key
+      kind: password
+    - name: start_date
+      value: '2010-01-01T00:00:00Z'
+  loaders:
+  - name: target-jsonl
+    variant: andyh1203
+    pip_url: target-jsonl

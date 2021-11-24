@@ -1,0 +1,114 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "status": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "created": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "format": "date-time"
+    },
+    "activated": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "statusChanged": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "format": "date-time"
+    },
+    "lastLogin": {
+      "type": [
+        "null",
+        "string"
+      ],
+	  "format": "date-time"
+    },
+    "lastUpdated": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "format": "date-time"
+    },
+    "passwordChanged": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "format": "date-time"
+    },
+    "profile": {
+      "type": [
+        "null",
+        "object"
+      ],
+      "properties": {
+		"ssoid": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "firstName": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "lastName": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "mobilePhone": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "secondEmail": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+		"grpList": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "login": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "email": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    }
+  }
+}
