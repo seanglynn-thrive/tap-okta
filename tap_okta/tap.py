@@ -22,11 +22,11 @@ class Tapokta(Tap):
 
     config_jsonschema = th.PropertiesList(
         th.Property(
-            "api_key", th.StringType, required=True, default="***REMOVED***",
+            "api_key", th.StringType, required=True, default="token",
             description="The token to authenticate against the API service"
         ),
         th.Property(
-            "api_url", th.StringType, default="***REMOVED***", # this
+            "api_url", th.StringType, default="https://", # this
             description="The url for the API service"
         ),
     ).to_dict()
@@ -36,7 +36,3 @@ class Tapokta(Tap):
         return [stream_class(tap=self) for stream_class in STREAM_TYPES]
 
 cli = Tapokta.cli
-
-
-if __name__ == '__main__':
-    cli()

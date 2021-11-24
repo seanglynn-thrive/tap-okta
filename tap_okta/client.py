@@ -1,12 +1,8 @@
-"""REST client handling, including oktaStream base class."""
-
 import requests
 from pathlib import Path
 from typing import Any, Dict, Optional, Union, List, Iterable
+import copy
 
-from memoization import cached
-
-from singer_sdk.helpers.jsonpath import extract_jsonpath
 from singer_sdk.streams import RESTStream
 from singer_sdk.authenticators import APIKeyAuthenticator
 
@@ -21,8 +17,6 @@ class oktaStream(RESTStream):
     def url_base(self) -> str:
         """Return the API URL root, configurable via tap settings."""
         return self.config["api_url"]
-
-    records_jsonpath = "$[*]"  # Or override `parse_response`.
 
     @property
     def authenticator(self) -> APIKeyAuthenticator:
@@ -41,11 +35,23 @@ class oktaStream(RESTStream):
         headers["Authorization"] = "SSWS " + self.config.get("api_key")
         return headers
 
+    def get_url(self, context: Optional[dict]) -> str:
+        url = "".join([self.url_base, self.path or ""])
+        vals = copy.copy(dict(self.config))
+        vals.update(context or {})
+
+        for k, v in vals.items():
+            search_text = "".join(["{", k, "}"])
+            if search_text in url:
+                url = url.replace(search_text, self._url_encode(v))
+        return url
+
+
     def get_next_page_token(
             self,
             response: requests.Response,
             previous_token: Optional[Any]
-        ) -> Optional[Any]:
+    ) -> Optional[Any]:
         """Return a token for identifying next page or None if no more pages."""
 
         response_links = requests.utils.parse_header_links(response.headers['Link'].rstrip('>').replace('>,<', ',<'))
@@ -72,8 +78,40 @@ class oktaStream(RESTStream):
             params["order_by"] = self.replication_key
         return params
 
+    def request_records(self, context: Optional[dict]) -> Iterable[dict]:
+        """Request records from REST endpoint(s), returning response records.
 
-    def parse_response(self, response: requests.Response) -> Iterable[dict]:
-        """Parse the response and return an iterator of result rows."""
-        # TODO: Parse response body and return a set of records.
-        yield from extract_jsonpath(self.records_jsonpath, input=response.json())
+		If pagination is detected, pages will be recursed automatically.
+
+		Args:
+			context: Stream partition or context dictionary.
+
+		Yields:
+			An item for every record in the response.
+
+		Raises:
+			RuntimeError: If a loop in pagination is detected. That is, when two
+				consecutive pagination tokens are identical.
+		"""
+        next_page_token: Any = None
+        finished = False
+        decorated_request = self.request_decorator(self._request)
+
+        while not finished:
+            prepared_request = self.prepare_request(
+                context, next_page_token=next_page_token
+            )
+            resp = decorated_request(prepared_request, context)
+            for row in self.parse_response(resp):
+                yield row
+            previous_token = copy.deepcopy(next_page_token)
+            next_page_token = self.get_next_page_token(
+                response=resp, previous_token=previous_token
+            )
+            if next_page_token and next_page_token == previous_token:
+                raise RuntimeError(
+                    f"Loop detected in pagination. "
+                    f"Pagination token {next_page_token} is identical to prior token."
+                )
+            # Cycle until get_next_page_token() no longer returns a value
+            finished = not next_page_token
