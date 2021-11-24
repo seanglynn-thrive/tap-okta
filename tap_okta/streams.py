@@ -11,6 +11,6 @@ SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
 
 class UsersStream(oktaStream):
     name = "users"
-    path = "/users?limit=10"
+    path = "/users"
     primary_keys = ["id"]
     schema_filepath = SCHEMAS_DIR / "users.json"

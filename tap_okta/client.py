@@ -23,7 +23,6 @@ class oktaStream(RESTStream):
         return self.config["api_url"]
 
     records_jsonpath = "$[*]"  # Or override `parse_response`.
-    next_page_token = True
 
     @property
     def authenticator(self) -> APIKeyAuthenticator:
@@ -48,6 +47,7 @@ class oktaStream(RESTStream):
             previous_token: Optional[Any]
         ) -> Optional[Any]:
         """Return a token for identifying next page or None if no more pages."""
+
         response_links = requests.utils.parse_header_links(response.headers['Link'].rstrip('>').replace('>,<', ',<'))
         for link in response_links:
             if link['rel'] == 'next':
@@ -58,10 +58,13 @@ class oktaStream(RESTStream):
 
 
     def get_url_params(
-        self, context: Optional[dict], next_page_token: Optional[Any]
+        self,
+        context: Optional[dict],
+        next_page_token: Optional[Any]
     ) -> Dict[str, Any]:
         """Return a dictionary of values to be used in URL parameterization."""
         params: dict = {}
+        params["limit"] = self.limit
         if next_page_token:
             params["page"] = next_page_token
         if self.replication_key:
