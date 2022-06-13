@@ -1,0 +1,19 @@
+{
+    "id": "11u2wmqjfzIEQZn27hs0",
+    "status": "ACTIVE",
+    "created": "2021-11-04T15:16:31.000Z",
+    "activated": "2021-11-04T15:16:32.000Z",
+    "statusChanged": "2021-11-24T11:47:20.000Z",
+    "lastLogin": "2021-11-24T11:46:25.000Z",
+    "lastUpdated": "2021-11-24T11:47:20.000Z",
+    "passwordChanged": "2021-11-04T15:16:32.000Z",
+    "profile": {
+        "firstName": "Some",
+        "lastName": "One",
+        "companyId": "xxx-yyy-zzz",
+        "mobilePhone": null,
+        "secondEmail": null,
+        "login": "someone@thriveglobal.com",
+        "email": "someone@thriveglobal.com"
+    }
+}
