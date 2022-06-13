@@ -18,7 +18,7 @@ plugins:
       value: '2010-01-01T00:00:00Z'
     config:
       start_date: '2021-12-10T11:20:01'
-      url: https://staging-auth.thriveglobal.com/api/v1
+      url: https://auth.somedomain.com/api/v1
   loaders:
   - name: target-jsonl
     variant: andyh1203
