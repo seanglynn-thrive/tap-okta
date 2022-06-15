@@ -28,7 +28,7 @@ class Tapokta(Tap):
         th.Property(
             "api_url",
             th.StringType,
-            default="https://tg-stage-admin.oktapreview.com/api/v1",
+            default="https://somedomain-admin.oktapreview.com/api/v1",
             description="The url for the API service",
         ),
     ).to_dict()
