@@ -1,0 +1,55 @@
+version: 1
+send_anonymous_usage_stats: true
+project_id: 49facb46-904e-4ce9-84cc-0cb8b8a32692
+plugins:
+  extractors:
+  - name: tap-okta
+    namespace: tap_okta
+    executable: ./tap-okta.sh
+    capabilities:
+    - state
+    - catalog
+    - discover
+    settings:
+    - name: url
+    - name: api_key
+      kind: password
+    - name: start_date
+      value: '2010-01-01T00:00:00Z'
+    config:
+      start_date: '2021-12-10T11:20:01'
+      url: https://auth.somedomain.com/api/v1
+  loaders:
+  - name: target-jsonl
+    variant: andyh1203
+    pip_url: target-jsonl
+    config:
+      do_timestamp_file: true
+      destination_path: output2
+  - name: target-csv
+    variant: hotgluexyz
+    pip_url: git+https://github.com/hotgluexyz/target-csv.git@0.3.3
+    config:
+      delimiter: '|'
+  - name: target-bigquery
+    variant: adswerve
+    pip_url: git+https://github.com/adswerve/target-bigquery.git@0.11.3
+    config:
+      add_metadata_columns: true
+      credentials_path: /path/to/key.json
+      dataset_id: bq_dataset
+      project_id: gcp-project
+      validate_records: true
+schedules:
+- name: okta-to-jsonl
+  extractor: tap-okta
+  loader: target-jsonl
+  transform: skip
+  interval: '@once'
+  start_date: 2021-12-10 11:20:01
+- name: okta-to-bigquery
+  extractor: tap-okta
+  loader: target-bigquery
+  transform: skip
+  interval: '@once'
+  start_date: 2021-12-10 11:20:01

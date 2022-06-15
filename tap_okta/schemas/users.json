@@ -38,7 +38,7 @@
         "null",
         "string"
       ],
-	  "format": "date-time"
+      "format": "date-time"
     },
     "lastUpdated": {
       "type": [
@@ -60,7 +60,122 @@
         "object"
       ],
       "properties": {
-		"ssoid": {
+
+        "companyId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "employeeNumber": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "facilityNumber": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "preferredLanguage": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "primaryPhone": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "timezone": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "userId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "zipcode": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "signUpCode": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "companyName": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "countryCode": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "employeeType": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "externalUserId": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "manager": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "title": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "careerTrackDescription": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "jobCode": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "countryDescription": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "geographicUnit": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "ssoid": {
           "type": [
             "null",
             "string"
@@ -90,7 +205,7 @@
             "string"
           ]
         },
-		"grpList": {
+        "grpList": {
           "type": [
             "null",
             "string"

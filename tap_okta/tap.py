@@ -5,29 +5,31 @@ from typing import List
 from singer_sdk import Tap, Stream
 from singer_sdk import typing as th  # JSON schema typing helpers
 
-from tap_okta.streams import (
-    UsersStream
-)
+from tap_okta.streams import UsersStream
 
 PLUGIN_NAME = "tap-okta"
 
-STREAM_TYPES = [
-    UsersStream
-]
+STREAM_TYPES = [UsersStream]
 
 
 class Tapokta(Tap):
     """okta tap class."""
+
     name = "tap-okta"
 
     config_jsonschema = th.PropertiesList(
         th.Property(
-            "api_key", th.StringType, required=True, default="token",
-            description="The token to authenticate against the API service"
+            "api_key",
+            th.StringType,
+            required=True,
+            default=None,
+            description="The token to authenticate against the API service",
         ),
         th.Property(
-            "api_url", th.StringType, default="https://", # this
-            description="The url for the API service"
+            "api_url",
+            th.StringType,
+            default="https://somedomain-admin.oktapreview.com/api/v1",
+            description="The url for the API service",
         ),
     ).to_dict()
 
@@ -35,4 +37,9 @@ class Tapokta(Tap):
         """Return a list of discovered streams."""
         return [stream_class(tap=self) for stream_class in STREAM_TYPES]
 
+
 cli = Tapokta.cli
+
+
+if __name__ == "__main__":
+    cli()

@@ -137,3 +137,9 @@ dmypy.json
 
 # configs
 config.json
+conf*json
+service-account.json
+runner.py
+output/*
+
+meltano.yml
